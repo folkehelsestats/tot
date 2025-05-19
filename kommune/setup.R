@@ -27,10 +27,7 @@ dt2018[, bruddtot := rowSums(.SD, na.rm = TRUE), .SDcols = vars]
 sum(dt2018$bruddtot, na.rm = T)
 
 ## ----------------
-files <- grep("dta$", list.files(fpath), value = TRUE)
-
-# Recode kommuner
-komm <- data.table::fread("kommuner2018_til_2023.csv")
+files <- grep("^KFT.*dta$", list.files(fpath), value = TRUE)
 
 DD <- vector("list", length(files))
 
