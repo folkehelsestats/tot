@@ -29,6 +29,9 @@ sum(dt2018$bruddtot, na.rm = T)
 ## ----------------
 files <- grep("dta$", list.files(fpath), value = TRUE)
 
+# Recode kommuner
+komm <- data.table::fread("kommuner2018_til_2023.csv")
+
 DD <- vector("list", length(files))
 
 for (i in seq_along(files)){
@@ -71,3 +74,10 @@ for (i in seq_along(unique_colnames)) {
   cat(paste0("Dataset ", i, ":\n"))
   print(unique_colnames[[i]])
 }
+
+## Recode kommuner
+komm <- data.table::fread("kommuner2018_til_2023.csv")
+dx1 <- DD[[1]]
+
+dx1[komm, on = .("kommunenr" = oldCode), newKomm := currentCode]
+dx1[is.na(newKomm), newKomm := kommunenr]
