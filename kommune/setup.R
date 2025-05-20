@@ -82,10 +82,22 @@ dx1[komm, on = .("kommunenr" = oldCode), newKomm := currentCode]
 dx1[is.na(newKomm), newKomm := kommunenr]
 
 recode_komm <- function(dt, code, col){
-  ## col - colname for kommune
+  ## col - colname in dt for kommune
   dt[code, on = setNames("oldCode", col), newKomm := currentCode]
   dt[is.na(newKomm), newKomm := col,
      env = list(col = col)]
 }
 
 dd <- recode_komm(dx1, komm, "kommunenr")
+
+## Colnames for kommunenr in different files
+komNames <- c("kommunenr", "Utvalg_Kommunenummer",
+              "kommunenr", "Utvalg_Kommunenummer",
+              "Utvalg_Kommunenummer", "utvalg_kommunenummer")
+
+
+for (i in seq_along(files)){
+  d <- DD[[i]]
+  x <- komNames[i]
+  recode_komm(d, komm, x)
+}
