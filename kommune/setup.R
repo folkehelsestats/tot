@@ -5,8 +5,8 @@ library("tcltk")
 pkgs <- c("data.table", "rio", "codebook", "sjPlot", "here", "skimr", "fs")
 sapply(pkgs, require, character.only = T)
 
-fpath <- "o:/Prosjekt/Rusdata/Kommunenes forvaltning/Tobakkskadeloven/Data_Stata"
-setwd(fpath)
+wpath <- "o:/Prosjekt/Rusdata/Kommunenes forvaltning/Tobakkskadeloven/Data_Stata"
+setwd(wpath)
 
 
 dt2018 <- rio::import("KFT_2018_2019.dta")
@@ -27,7 +27,9 @@ dt2018[, bruddtot := rowSums(.SD, na.rm = TRUE), .SDcols = vars]
 sum(dt2018$bruddtot, na.rm = T)
 
 ## ----------------
-files <- grep("^KFT.*dta$", list.files(fpath), value = TRUE)
+filePath <- file.path(wpath, "org")
+fname <- grep("^KFT.*dta$", list.files(filePath), value = TRUE)
+files <- file.path(filePath, fname)
 
 DD <- vector("list", length(files))
 
