@@ -80,3 +80,12 @@ dx1 <- DD[[1]]
 
 dx1[komm, on = .("kommunenr" = oldCode), newKomm := currentCode]
 dx1[is.na(newKomm), newKomm := kommunenr]
+
+recode_komm <- function(dt, code, col){
+  ## col - colname for kommune
+  dt[code, on = setNames("oldCode", col), newKomm := currentCode]
+  dt[is.na(newKomm), newKomm := col,
+     env = list(col = col)]
+}
+
+dd <- recode_komm(dx1, komm, "kommunenr")
