@@ -22,6 +22,15 @@ for (i in seq_along(files)){
 
 ## Function --------------
 
+recode_komm <- function(dt, code, col){
+  ## dt - dataset
+  ## code - codebook for recoding var i dt
+  ## col - colname in dt for kommune
+  dt[code, on = setNames("oldCode", col), newKomm := currentCode]
+  dt[is.na(newKomm), newKomm := col,
+     env = list(col = col)]
+}
+
 ## kommunernummer
 komm <- data.table::fread("kommuner2018_til_2023.csv")
 
