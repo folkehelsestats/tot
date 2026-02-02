@@ -142,11 +142,11 @@ table(for_2025$alder_4)
 
 De årlige røykevaneundersøkelsene fra Statistisk sentralbyrå har fra 1990 til 2014 inkludert spørsmål til dagligrøykere om opprinnelsesland for siste døgns sigarettforbruk. Fra 2015 overtok Ipsos oppgaven med å kartlegge forsyningskilder, på vegne av FHI, og undersøkelsene ble samtidig utvidet til å omfatte snus og e-sigaretter. <https://www.fhi.no/le/royking/tobakkinorge/bruk-av-tobakk/nikotinmarkedets-sammensetning-og-endring/#kjp-av-tobakk-fra-uregistrerte-forsyningskilder> Fra 2025 har Helsedirektoratet overtatt innkjøp av undersøkelsen, som fortsatt gjennomføres av Ipsos.
 
-Undersøkelsen gjennomføres ved at Ipsos sender undersøkelsen til medlemmer av Ipsos Webpanel i alderen 15 eller mer, både vis sms, e-post og telefon. Undersøkelsen sendes ut hver uke gjennom hele året og antallet respondenter som svarer på undersøkelsen varierer. Tre til fire ganger i året sammenliknes demografiske markører ved utvalget og befolkningen. I tilfelle noen grupper er over/underrepresentert sendes det ut flere invitasjoner til de gruppene som kan kompensere for skjevfordelingen. En detaljert beskrivelse av utvalgsprosedyren ligger på Ipsos nettsider (<https://w.ipsos.no/bild/forsyningsundersokelsen.pdf>).
+Undersøkelsen gjennomføres ved at Ipsos sender undersøkelsen til medlemmer av Ipsos Webpanel i alderen 15 eller mer, både via sms, e-post og telefon. Undersøkelsen sendes ut hver uke gjennom hele året og antallet respondenter som svarer på undersøkelsen varierer. Tre til fire ganger i året sammenliknes demografiske markører ved utvalget og befolkningen. I tilfelle noen grupper er over/underrepresentert sendes det ut flere invitasjoner til de gruppene som kan kompensere for skjevfordelingen. En detaljert beskrivelse av utvalgsprosedyren ligger på Ipsos nettsider (<https://w.ipsos.no/bild/forsyningsundersokelsen.pdf>).
 
 ## E-sigaretter per 2025
 
-Det er forbudt å importere og selge e-sigaretter og e-væske med nikotin i Norge. Det er vedtatt nye regler som vil tillate salg av e-sigaretter med nikotin, men de nye reglene har ikke tredd i kraft I Norge ennå. I EU er det lov å selge med nikotin, med en maksimumsgrense på 20 mg/ml. Fra 1. juli 2024 er det ikke tillatt med andre smaker enn tobakk i e-sigaretter og e-væske/e-juice solgt i Norge.
+Det er forbudt å importere og selge e-sigaretter og e-væske med nikotin i Norge. Det er vedtatt nye regler som vil tillate salg av e-sigaretter med nikotin, men de nye reglene har ikke tredd i kraft i Norge ennå. I EU er det lov å selge med nikotin, med en maksimumsgrense på 20 mg/ml. Fra 1. juli 2024 er det ikke tillatt med andre smaker enn tobakk i e-sigaretter og e-væske/e-juice solgt i Norge.
 
 Privatpersoner som ønsker å bruke e-sigaretter med nikotin som røykeavvenningsprodukt kan importere disse fra utlandet som legemiddel.
 
@@ -358,8 +358,8 @@ Fordelingen av forsyningskilder for sigaretter i perioden 2015-2025 er vist i fi
 # Variabelnavnene du vil beholde
 vars_royk <- c(
   "kjonn","alder","Aq1",
-  "As11","As12","As13","As14","As15","As16","As17","As18","As19",
-  "As21","As22","As23","As24","As25","As26","As27","As28",
+  "As1.1","As1.2","As1.3","As1.4","As1.5","As1.6","As1.7","As1.8","As1.9",
+  "As2.1","As2.2","As2.3","As2.4","As2.5","As2.6","As2.7","As2.8",
   "W1","aar","alder_4"
 )
 
@@ -368,7 +368,7 @@ forroyk <- for_2025[Aq1 == 1, ..vars_royk]
 
 
 # Variablene som skal summeres (antall røyk fra ulike kilder)
-sum_vars_royk <- c("As21","As22","As23","As24","As25","As26","As27","As28")
+sum_vars_royk <- c("As2.1","As2.2","As2.3","As2.4","As2.5","As2.6","As2.7","As2.8")
 
 # Sørg for numerisk og lag totnroyk
 forroyk[, (sum_vars_royk) := lapply(.SD, function(x) as.numeric(as.character(x))), .SDcols = sum_vars_royk]
@@ -393,14 +393,14 @@ sum_royk_year <- forroyk[
       )
     } else {
       andeler <- list(
-        nor          = 100 * comp_sums$As21 / tot_sum,
-        taxfree      = 100 * comp_sums$As22 / tot_sum,
-        smu          = 100 * comp_sums$As23 / tot_sum,
-        sverige      = 100 * comp_sums$As24 / tot_sum,
-        danmark      = 100 * comp_sums$As25 / tot_sum,
-        utland       = 100 * comp_sums$As26 / tot_sum,
-        nor_nett     = 100 * comp_sums$As27 / tot_sum,
-        utland_nett  = 100 * comp_sums$As28 / tot_sum
+        nor          = 100 * comp_sums$As2.1 / tot_sum,
+        taxfree      = 100 * comp_sums$As2.2 / tot_sum,
+        smu          = 100 * comp_sums$As2.3 / tot_sum,
+        sverige      = 100 * comp_sums$As2.4 / tot_sum,
+        danmark      = 100 * comp_sums$As2.5 / tot_sum,
+        utland       = 100 * comp_sums$As2.6 / tot_sum,
+        nor_nett     = 100 * comp_sums$As2.7 / tot_sum,
+        utland_nett  = 100 * comp_sums$As2.8 / tot_sum
       )
     }
 
@@ -483,7 +483,7 @@ h
 
 # Tabell med tall over:
 
-royk_uvektet <- gt(dt) |>  tab_header(title = "Forsyningskilder sigaretter") |> fmt_number(columns = c(nor, taxfree, smu, sverige, danmark, utland, nor_nett, utland_nett), decimals = 1) |> cols_label(aar = "År", As21 = "Norge (butikk)", As22 = "Taxfree", As23 = "Smuglevare", As24 = "Sverige (butikk)", As25 = "Danmark (butikk)", As26 = "Utland", As27 = "Norge (nett)", As28 = "Utland (nett)", sum_totnroyk = "N røyk")
+royk_uvektet <- gt(dt) |>  tab_header(title = "Forsyningskilder sigaretter") |> fmt_number(columns = c(nor, taxfree, smu, sverige, danmark, utland, nor_nett, utland_nett), decimals = 1) |> cols_label(aar = "År", As2.1 = "Norge (butikk)", As2.2 = "Taxfree", As2.3 = "Smuglevare", As2.4 = "Sverige (butikk)", As2.5 = "Danmark (butikk)", As2.6 = "Utland", As2.7 = "Norge (nett)", As2.8 = "Utland (nett)", sum_totnroyk = "N røyk")
 
 ## Vektede tall:
 
@@ -503,14 +503,14 @@ sum_royk_year_w <- forroyk[
       )
     } else {
       andeler_w <- list(
-        nor          = 100 * comp_sums_w$As21 / tot_sum_w,
-        taxfree      = 100 * comp_sums_w$As22 / tot_sum_w,
-        smu          = 100 * comp_sums_w$As23 / tot_sum_w,
-        sverige      = 100 * comp_sums_w$As24 / tot_sum_w,
-        danmark      = 100 * comp_sums_w$As25 / tot_sum_w,
-        utland       = 100 * comp_sums_w$As26 / tot_sum_w,
-        nor_nett     = 100 * comp_sums_w$As27 / tot_sum_w,
-        utland_nett  = 100 * comp_sums_w$As28 / tot_sum_w
+        nor          = 100 * comp_sums_w$As2.1 / tot_sum_w,
+        taxfree      = 100 * comp_sums_w$As2.2 / tot_sum_w,
+        smu          = 100 * comp_sums_w$As2.3 / tot_sum_w,
+        sverige      = 100 * comp_sums_w$As2.4 / tot_sum_w,
+        danmark      = 100 * comp_sums_w$As2.5 / tot_sum_w,
+        utland       = 100 * comp_sums_w$As2.6 / tot_sum_w,
+        nor_nett     = 100 * comp_sums_w$As2.7 / tot_sum_w,
+        utland_nett  = 100 * comp_sums_w$As2.8 / tot_sum_w
       )
     }
 
@@ -561,7 +561,7 @@ for (nm in andel_cols) {
 # Vis figuren
 h_w
 
-dt_filtered <- dt_w[, !names(dt_w) %in% paste0("As", 21:28), with = FALSE]
+dt_filtered <- dt_w[, !names(dt_w) %in% paste0("As", 2.1:2.8), with = FALSE]
 
 # Tall til figuren over:
 royk_vektet <- gt(dt_filtered) |>  tab_header(title = "Forsyningskilder sigaretter vektet") |> fmt_number(columns = c(nor, taxfree, smu, sverige, danmark, utland, nor_nett, utland_nett), decimals = 1) |> cols_label(aar = "År", nor = "Norge (butikk)", taxfree = "Taxfree", smu = "Smuglevare", sverige = "Sverige (butikk)", danmark = "Danmark (butikk)", utland = "Utland", nor_nett = "Norge (nett)", utland_nett = "Utland (nett)", sum_totnroyk = "N røyk")
@@ -598,8 +598,8 @@ Fordelingen av forsyningskilder for snus i perioden 2015-2025 er vist i figuren 
 # Variabelnavnene du vil beholde
 vars_snus <- c(
   "kjonn","alder","Aq2",
-  "An11","An12","An13","An14","An15","An16","An17","An18","An19",
-  "An21","An22","An23","An24","An25","An26","An27","An28",
+  "An1.1","An1.2","An1.3","An1.4","An1.5","An1.6","An1.7","An1.8","An1.9",
+  "An2.1","An2.2","An2.3","An2.4","An2.5","An2.6","An2.7","An2.8",
   "W1","aar","alder_4"
 )
 
@@ -608,9 +608,9 @@ forsnus <- for_2025[Aq2 == 1, ..vars_snus]
 
 
 # Variablene som skal summeres (antall snus fra ulike kilder)
-sum_vars_snus <- c("An21","An22","An23","An24","An25","An26","An27","An28")
+sum_vars_snus <- c("An2.1","An2.2","An2.3","An2.4","An2.5","An2.6","An2.7","An2.8")
 
-# S?rg for numerisk og lag totnroyk
+# Sørg for numerisk og lag totnroyk
 forsnus[, (sum_vars_snus) := lapply(.SD, function(x) as.numeric(as.character(x))), .SDcols = sum_vars_snus]
 forsnus[, totnsnus := rowSums(.SD, na.rm = TRUE), .SDcols = sum_vars_snus]
 
@@ -633,14 +633,14 @@ sum_snus_year <- forsnus[
       )
     } else {
       andeler <- list(
-        nor          = 100 * comp_sums$An21 / tot_sum,
-        taxfree      = 100 * comp_sums$An22 / tot_sum,
-        smu          = 100 * comp_sums$An23 / tot_sum,
-        sverige      = 100 * comp_sums$An24 / tot_sum,
-        danmark      = 100 * comp_sums$An25 / tot_sum,
-        utland       = 100 * comp_sums$An26 / tot_sum,
-        nor_nett     = 100 * comp_sums$An27 / tot_sum,
-        utland_nett  = 100 * comp_sums$An28 / tot_sum
+        nor          = 100 * comp_sums$An2.1 / tot_sum,
+        taxfree      = 100 * comp_sums$An2.2 / tot_sum,
+        smu          = 100 * comp_sums$An2.3 / tot_sum,
+        sverige      = 100 * comp_sums$An2.4 / tot_sum,
+        danmark      = 100 * comp_sums$An2.5 / tot_sum,
+        utland       = 100 * comp_sums$An2.6 / tot_sum,
+        nor_nett     = 100 * comp_sums$An2.7 / tot_sum,
+        utland_nett  = 100 * comp_sums$An2.8 / tot_sum
       )
     }
 
@@ -741,14 +741,14 @@ sum_snus_year_w <- forsnus[
       )
     } else {
       andeler_w <- list(
-        nor          = 100 * comp_sums_w$An21 / tot_sum_w,
-        taxfree      = 100 * comp_sums_w$An22 / tot_sum_w,
-        smu          = 100 * comp_sums_w$An23 / tot_sum_w,
-        sverige      = 100 * comp_sums_w$An24 / tot_sum_w,
-        danmark      = 100 * comp_sums_w$An25 / tot_sum_w,
-        utland       = 100 * comp_sums_w$An26 / tot_sum_w,
-        nor_nett     = 100 * comp_sums_w$An27 / tot_sum_w,
-        utland_nett  = 100 * comp_sums_w$An28 / tot_sum_w
+        nor          = 100 * comp_sums_w$An2.1 / tot_sum_w,
+        taxfree      = 100 * comp_sums_w$An2.2 / tot_sum_w,
+        smu          = 100 * comp_sums_w$An2.3 / tot_sum_w,
+        sverige      = 100 * comp_sums_w$An2.4 / tot_sum_w,
+        danmark      = 100 * comp_sums_w$An2.5 / tot_sum_w,
+        utland       = 100 * comp_sums_w$An2.6 / tot_sum_w,
+        nor_nett     = 100 * comp_sums_w$An2.7 / tot_sum_w,
+        utland_nett  = 100 * comp_sums_w$An2.8 / tot_sum_w
       )
     }
 
@@ -839,273 +839,273 @@ Fordelingen av forsyningskilder for e-sigaretter i perioden 2015-2025 er vist i 
 
 
 # Variabelnavnene du vil beholde
-vars_damp <- c(
-  "kjonn", "alder", "W1", "aar", "alder_4", 
-  "Aq3", "Ae1", "Ae2", 
-  "e2b", "e3a", "e3b", "e3c", "e3d", "e3f",
-  "Ae3OLD", "Ae3_1OLD"
-)
-
-
-
-### FOrdamperenhet - forsyning
-
-# Fordamperhet forsyning. Lag nytt datasett med filtrering og variabelutvalg på de som røyker e-sig daglig. Dette brukes kun til forsyning på fordamperenhet. 
-fordamp_enhet <- for_2025[Aq3 == 1, ..vars_damp] 
-
- # For e-sig engangs eller enhet med påfylling er det to variabler. Dobbeltsjekker at ikke ett individ har svart på begge variablene, selv om filter tilsier at dette ikke skal skje
-
-# Lager indikatorvariabel: 1 hvis begge er ikke-NA, ellers 0
-fordamp_enhet[, enhet_begge_ikke_mis := as.integer(!is.na(e3d) & !is.na(e3f))]
-
-# Teller antall rade der indikatoren er 1
-antall_begge_ikke_mis <- fordamp_enhet[, sum(enhet_begge_ikke_mis)]
-
-# Antall:
-antall_begge_ikke_mis
-
-# Kombinerer forsyningskilde for enhet (engangs og m/påfylling) til en variabel, inkl. tidligere stilt spørsmål til en variabel:
-fordamp_enhet[, enhet := apply(.SD, 1, function(x) paste(na.omit(x), collapse = " ")),
-              .SDcols = c("Ae3OLD", "e3d", "e3f")] # Denne legger inn flere verdier i tekst-streng.
-# Lager variabel til numerisk:
-fordamp_enhet[, enhet := as.numeric(enhet)]
-fordamp_enhet[is.na(as.numeric(enhet)), .N]  # teller antall som blir N
-
-# Lager tabell med forsyning for enhet (både engangs og påfyllbar) over tid:
-
-# Legger inn alternativer, 1-7 (obs, alt 7 kun svaralternativ for e3f):
-
-# 1) Definer kategorinavn for verdiene 1–7
-enhet_labels <- c(
-  "Utsalg Norge",           # 1
-  "Nett Norge",             # 2
-  "Utsalg Sverige/Danmark", # 3
-  "Utsalg utland",          # 4
-  "Nett Sverige/Danmark",   # 5
-  "Nett utland",            # 6
-  "Annet/usikker"           # 7
-)
-
-# 2) Lag en kategorivariabel med labels (kun for 1:7)
-fordamp_enhet[
-  , enhet_kat := factor(enhet, levels = 1:7, labels = enhet_labels)
-]
-
-# 3) Frekvenstabell per år, ekskluder NA og andre verdier enn 1:7
-tab_enhet_aar <- fordamp_enhet[
-  !is.na(enhet),
-  .(n = .N), 
-  by = .(aar, enhet, enhet_kat)
-][
-  # 5) Andel per år (andel = n / sum(n) for samme aar)
-  , andel := n / sum(n), by = aar
-][
-  # 6) Valgfritt: legg til prosent og sorter
-  , andel_prosent := round(100 * andel, 1)
-][
-  order(aar, enhet)
-]
-
-# tar med n per år
-total_per_aar <- fordamp_enhet[!is.na(enhet), .(N_total = .N), by = aar]
-
-
-# Lage figur: 
-
-
-library(data.table)
-library(highcharter)
-
-# Sikre at tabellen har andel (0–1) og riktig sortering
-tab_plot <- copy(tab_enhet_aar)[order(aar, enhet_kat)]
-
-# Velg farger (valgfritt)
-farger <- c(
-  "Utsalg Norge"           = "#025169",
-  "Nett Norge"             = "#0069E8", 
-  "Utsalg Sverige/Danmark" = "#7C145C",
-  "Utsalg utland"          = "#047FA4",
-  "Nett Sverige/Danmark"   = "#C68803",
-  "Nett utland"            = "#38A389",
-  "Annet/usikker"          = "#6996CE"
-)
-
-library(highcharter)
-
-
-# Alle år (x-aksen)
-alle_aar <- sort(unique(tab_plot$aar))
-
-# Fikse: 
-# i figuren er det 2 linjer av hver variabel..
-
-
-# Start chart
-hc_linje <- highchart() %>%
-  hc_title(text = "Forsyningskilde e-sigarett-enhet over tid") %>%
- # hc_subtitle(text = "NA utelatt; enhet 1–7") %>%
-  hc_xAxis(
-    title = list(text = "År"),
-    categories = alle_aar,
-    tickmarkPlacement = "on"
-  ) %>%
-  hc_yAxis(
-   # title = list(text = "Andel (%)"),
-    max = 100, min = 0
-  ) %>%
-  hc_tooltip(
-    shared = TRUE,
-    # Kun prosent i tooltip, med to desimaler:
-    pointFormat = "<span style='color:{series.color}'>●</span> {series.name}: <b>{point.y:.2f} %</b><br/>"
-  ) %>%
-  hc_legend(enabled = TRUE) %>%
-  hc_exporting(enabled = TRUE)
-
-# Legg til én serie per kategori (y-verdier i prosent)
-for (kat in unique(tab_plot$enhet_kat)) {
-  dt <- tab_plot[enhet_kat == kat, .(aar, y = andel * 100)]  # konverter til prosent
-  # Sørg for samme lengde/rekkefølge som x-aksen (alle_aar)
-  dt_full <- data.table(aar = alle_aar)[dt, on = "aar"]
-  dt_full[is.na(y), y := 0]
-
-  hc_linje <- hc_linje %>%
-    hc_add_series(
-      name  = as.character(kat),
-      data  = dt_full$y,  # numerisk vektor i prosent
-      type  = "spline",
-      color = farger[[as.character(kat)]],
-      marker = list(enabled = TRUE)
-    )
-}
-
-hc_linje
-
-
-  
-
-
-# E-sig væske forsyning (med nikotin)
-# Lag nytt datasett med filtrering og variabelutvalg på de som røyker e-sig daglig, svarer hvilken type e-sig de bruker (filtreringsspørsmål) og kutter de som røyker nikotinfri væske eller ikke vet nikotininnhold i væsken. Dette brukes kun til forsyning på væske. 
-
-
-# Lag nytt datasett med filtrering og variabelutvalg på de som røyker e-sig daglig. Dette brukes kun til forsyning på fordamperenhet. 
-fordamp_fluid <- for_2025[Aq3 == 1, ..vars_damp] 
-
- # For væske er det flere variabler, og etter 2023 er det to variabler (ferdigutblandet nikotinholdig væske og nikotinvæske som blandes inn selv). Dobbeltsjekker at ikke ett individ har svart på begge variablene, selv om filter tilsier at dette ikke skal skje.
-
-# Lager indikatorvariabel: 1 hvis begge er ikke-NA, ellers 0
-fordamp_fluid[, enhet_begge_ikke_mis := as.integer(!is.na(e3a) & !is.na(e3b))]
-
-# Teller antall rade der indikatoren er 1
-antall_begge_ikke_mis <- fordamp_fluid[, sum(enhet_begge_ikke_mis)]
-
-# Antall:
-antall_begge_ikke_mis
-
-# Kombinerer forsyningskilde for enhet (engangs og m/påfylling) til en variabel, inkl. tidligere stilt spørsmål til en variabel:
-fordamp_fluid[, fluid := apply(.SD, 1, function(x) paste(na.omit(x), collapse = " ")),
-              .SDcols = c("Ae3_1OLD", "e3a", "e3b")] # Denne legger inn flere verdier i tekst-streng.
-# Lager variabel til numerisk:
-fordamp_fluid[, fluid := as.numeric(fluid)]
-fordamp_fluid[is.na(as.numeric(fluid)), .N]  # teller antall som blir N
-
-
-# Lager tabell med forsyning for væske (ferdigutblandet og nikotinvæske som blandes inn) over tid:
-
-# Legger inn alternativer, 1-7 (obs, alt 7 kun svaralternativ for e3f):
-
-# 2) Lag en kategorivariabel med labels (kun for 1:7)
-fordamp_fluid[
-  , enhet_kat := factor(fluid, levels = 1:7, labels = enhet_labels)
-]
-
-# 3) Frekvenstabell per år, ekskluder NA og andre verdier enn 1:7
-tab_enhet_aar <- fordamp_fluid[
-  !is.na(fluid),
-  .(n = .N), 
-  by = .(aar, fluid, enhet_kat)
-][
-  # 5) Andel per år (andel = n / sum(n) for samme aar)
-  , andel := n / sum(n), by = aar
-][
-  # 6) Valgfritt: legg til prosent og sorter
-  , andel_prosent := round(100 * andel, 1)
-][
-  order(aar, fluid)
-]
-
-# tar med n per år
-total_per_aar <- fordamp_fluid[!is.na(fluid), .(N_total = .N), by = aar]
-
-
-# Lage figur: 
-
-
-library(data.table)
-library(highcharter)
-
-# Sikre at tabellen har andel (0–1) og riktig sortering
-tab_plot_fluid <- copy(tab_enhet_aar)[order(aar, enhet_kat)]
-
-
-# Alle år (x-aksen)
-alle_aar <- sort(unique(tab_plot_fluid$aar))
-
-# Fikse: 
-# i figuren er det 2 linjer av hver variabel..
-
-
-# Start chart
-hc_linje_fluid <- highchart() %>%
-  hc_title(text = "Forsyningskilde e-sigarett nikotinvæske over tid") %>%
- # hc_subtitle(text = "NA utelatt; enhet 1–7") %>%
-  hc_xAxis(
-    title = list(text = "År"),
-    categories = alle_aar,
-    tickmarkPlacement = "on"
-  ) %>%
-  hc_yAxis(
-   # title = list(text = "Andel (%)"),
-    max = 100, min = 0
-  ) %>%
-  hc_tooltip(
-    shared = TRUE,
-    # Kun prosent i tooltip, med to desimaler:
-    pointFormat = "<span style='color:{series.color}'>●</span> {series.name}: <b>{point.y:.2f} %</b><br/>"
-  ) %>%
-  hc_legend(enabled = TRUE) %>%
-  hc_exporting(enabled = TRUE)
-
-# Legg til én serie per kategori (y-verdier i prosent)
-for (kat in unique(tab_plot_fluid$enhet_kat)) {
-  dt <- tab_plot[enhet_kat == kat, .(aar, y = andel * 100)]  # konverter til prosent
-  # Sørg for samme lengde/rekkefølge som x-aksen (alle_aar)
-  dt_full <- data.table(aar = alle_aar)[dt, on = "aar"]
-  dt_full[is.na(y), y := 0]
-
-  hc_linje_fluid <- hc_linje_fluid %>%
-    hc_add_series(
-      name  = as.character(kat),
-      data  = dt_full$y,  # numerisk vektor i prosent
-      type  = "spline",
-      color = farger[[as.character(kat)]],
-      marker = list(enabled = TRUE)
-    )
-}
-
-hc_linje_fluid
-
+# vars_damp <- c(
+#   "kjonn", "alder", "W1", "aar", "alder_4", 
+#   "Aq3", "Ae1", "Ae2", 
+#   "e2b", "e3a", "e3b", "e3c", "e3d", "e3f",
+#   "Ae3OLD", "Ae3_1OLD"
+# )
+# 
+# 
+# 
+# ### FOrdamperenhet - forsyning
+# 
+# # Fordamperhet forsyning. Lag nytt datasett med filtrering og variabelutvalg på de som røyker e-sig daglig. Dette brukes kun til forsyning på fordamperenhet. 
+# fordamp_enhet <- for_2025[Aq3 == 1, ..vars_damp] 
+# 
+#  # For e-sig engangs eller enhet med påfylling er det to variabler. Dobbeltsjekker at ikke ett individ har svart på begge variablene, selv om filter tilsier at dette ikke skal skje
+# 
+# # Lager indikatorvariabel: 1 hvis begge er ikke-NA, ellers 0
+# fordamp_enhet[, enhet_begge_ikke_mis := as.integer(!is.na(e3d) & !is.na(e3f))]
+# 
+# # Teller antall rade der indikatoren er 1
+# antall_begge_ikke_mis <- fordamp_enhet[, sum(enhet_begge_ikke_mis)]
+# 
+# # Antall:
+# antall_begge_ikke_mis
+# 
+# # Kombinerer forsyningskilde for enhet (engangs og m/påfylling) til en variabel, inkl. tidligere stilt spørsmål til en variabel:
+# fordamp_enhet[, enhet := apply(.SD, 1, function(x) paste(na.omit(x), collapse = " ")),
+#               .SDcols = c("Ae3OLD", "e3d", "e3f")] # Denne legger inn flere verdier i tekst-streng.
+# # Lager variabel til numerisk:
+# fordamp_enhet[, enhet := as.numeric(enhet)]
+# fordamp_enhet[is.na(as.numeric(enhet)), .N]  # teller antall som blir N
+# 
+# # Lager tabell med forsyning for enhet (både engangs og påfyllbar) over tid:
+# 
+# # Legger inn alternativer, 1-7 (obs, alt 7 kun svaralternativ for e3f):
+# 
+# # 1) Definer kategorinavn for verdiene 1–7
+# enhet_labels <- c(
+#   "Utsalg Norge",           # 1
+#   "Nett Norge",             # 2
+#   "Utsalg Sverige/Danmark", # 3
+#   "Utsalg utland",          # 4
+#   "Nett Sverige/Danmark",   # 5
+#   "Nett utland",            # 6
+#   "Annet/usikker"           # 7
+# )
+# 
+# # 2) Lag en kategorivariabel med labels (kun for 1:7)
+# fordamp_enhet[
+#   , enhet_kat := factor(enhet, levels = 1:7, labels = enhet_labels)
+# ]
+# 
+# # 3) Frekvenstabell per år, ekskluder NA og andre verdier enn 1:7
+# tab_enhet_aar <- fordamp_enhet[
+#   !is.na(enhet),
+#   .(n = .N), 
+#   by = .(aar, enhet, enhet_kat)
+# ][
+#   # 5) Andel per år (andel = n / sum(n) for samme aar)
+#   , andel := n / sum(n), by = aar
+# ][
+#   # 6) Valgfritt: legg til prosent og sorter
+#   , andel_prosent := round(100 * andel, 1)
+# ][
+#   order(aar, enhet)
+# ]
+# 
+# # tar med n per år
+# total_per_aar <- fordamp_enhet[!is.na(enhet), .(N_total = .N), by = aar]
+# 
+# 
+# # Lage figur: 
+# 
+# 
+# library(data.table)
+# library(highcharter)
+# 
+# # Sikre at tabellen har andel (0–1) og riktig sortering
+# tab_plot <- copy(tab_enhet_aar)[order(aar, enhet_kat)]
+# 
+# # Velg farger (valgfritt)
+# farger <- c(
+#   "Utsalg Norge"           = "#025169",
+#   "Nett Norge"             = "#0069E8", 
+#   "Utsalg Sverige/Danmark" = "#7C145C",
+#   "Utsalg utland"          = "#047FA4",
+#   "Nett Sverige/Danmark"   = "#C68803",
+#   "Nett utland"            = "#38A389",
+#   "Annet/usikker"          = "#6996CE"
+# )
+# 
+# library(highcharter)
+# 
+# 
+# # Alle år (x-aksen)
+# alle_aar <- sort(unique(tab_plot$aar))
+# 
+# # Fikse: 
+# # i figuren er det 2 linjer av hver variabel..
+# 
+# 
+# # Start chart
+# hc_linje <- highchart() %>%
+#   hc_title(text = "Forsyningskilde e-sigarett-enhet over tid") %>%
+#  # hc_subtitle(text = "NA utelatt; enhet 1–7") %>%
+#   hc_xAxis(
+#     title = list(text = "År"),
+#     categories = alle_aar,
+#     tickmarkPlacement = "on"
+#   ) %>%
+#   hc_yAxis(
+#    # title = list(text = "Andel (%)"),
+#     max = 100, min = 0
+#   ) %>%
+#   hc_tooltip(
+#     shared = TRUE,
+#     # Kun prosent i tooltip, med to desimaler:
+#     pointFormat = "<span style='color:{series.color}'>●</span> {series.name}: <b>{point.y:.2f} %</b><br/>"
+#   ) %>%
+#   hc_legend(enabled = TRUE) %>%
+#   hc_exporting(enabled = TRUE)
+# 
+# # Legg til én serie per kategori (y-verdier i prosent)
+# for (kat in unique(tab_plot$enhet_kat)) {
+#   dt <- tab_plot[enhet_kat == kat, .(aar, y = andel * 100)]  # konverter til prosent
+#   # Sørg for samme lengde/rekkefølge som x-aksen (alle_aar)
+#   dt_full <- data.table(aar = alle_aar)[dt, on = "aar"]
+#   dt_full[is.na(y), y := 0]
+# 
+#   hc_linje <- hc_linje %>%
+#     hc_add_series(
+#       name  = as.character(kat),
+#       data  = dt_full$y,  # numerisk vektor i prosent
+#       type  = "spline",
+#       color = farger[[as.character(kat)]],
+#       marker = list(enabled = TRUE)
+#     )
+# }
+# 
+# hc_linje
+# 
+# 
+#   
+# 
+# 
+# # E-sig væske forsyning (med nikotin)
+# # Lag nytt datasett med filtrering og variabelutvalg på de som røyker e-sig daglig, svarer hvilken type e-sig de bruker (filtreringsspørsmål) og kutter de som røyker nikotinfri væske eller ikke vet nikotininnhold i væsken. Dette brukes kun til forsyning på væske. 
+# 
+# 
+# # Lag nytt datasett med filtrering og variabelutvalg på de som røyker e-sig daglig. Dette brukes kun til forsyning på fordamperenhet. 
+# fordamp_fluid <- for_2025[Aq3 == 1, ..vars_damp] 
+# 
+#  # For væske er det flere variabler, og etter 2023 er det to variabler (ferdigutblandet nikotinholdig væske og nikotinvæske som blandes inn selv). Dobbeltsjekker at ikke ett individ har svart på begge variablene, selv om filter tilsier at dette ikke skal skje.
+# 
+# # Lager indikatorvariabel: 1 hvis begge er ikke-NA, ellers 0
+# fordamp_fluid[, enhet_begge_ikke_mis := as.integer(!is.na(e3a) & !is.na(e3b))]
+# 
+# # Teller antall rade der indikatoren er 1
+# antall_begge_ikke_mis <- fordamp_fluid[, sum(enhet_begge_ikke_mis)]
+# 
+# # Antall:
+# antall_begge_ikke_mis
+# 
+# # Kombinerer forsyningskilde for enhet (engangs og m/påfylling) til en variabel, inkl. tidligere stilt spørsmål til en variabel:
+# fordamp_fluid[, fluid := apply(.SD, 1, function(x) paste(na.omit(x), collapse = " ")),
+#               .SDcols = c("Ae3_1OLD", "e3a", "e3b")] # Denne legger inn flere verdier i tekst-streng.
+# # Lager variabel til numerisk:
+# fordamp_fluid[, fluid := as.numeric(fluid)]
+# fordamp_fluid[is.na(as.numeric(fluid)), .N]  # teller antall som blir N
+# 
+# 
+# # Lager tabell med forsyning for væske (ferdigutblandet og nikotinvæske som blandes inn) over tid:
+# 
+# # Legger inn alternativer, 1-7 (obs, alt 7 kun svaralternativ for e3f):
+# 
+# # 2) Lag en kategorivariabel med labels (kun for 1:7)
+# fordamp_fluid[
+#   , enhet_kat := factor(fluid, levels = 1:7, labels = enhet_labels)
+# ]
+# 
+# # 3) Frekvenstabell per år, ekskluder NA og andre verdier enn 1:7
+# tab_enhet_aar <- fordamp_fluid[
+#   !is.na(fluid),
+#   .(n = .N), 
+#   by = .(aar, fluid, enhet_kat)
+# ][
+#   # 5) Andel per år (andel = n / sum(n) for samme aar)
+#   , andel := n / sum(n), by = aar
+# ][
+#   # 6) Valgfritt: legg til prosent og sorter
+#   , andel_prosent := round(100 * andel, 1)
+# ][
+#   order(aar, fluid)
+# ]
+# 
+# # tar med n per år
+# total_per_aar <- fordamp_fluid[!is.na(fluid), .(N_total = .N), by = aar]
+# 
+# 
+# # Lage figur: 
+# 
+# 
+# library(data.table)
+# library(highcharter)
+# 
+# # Sikre at tabellen har andel (0–1) og riktig sortering
+# tab_plot_fluid <- copy(tab_enhet_aar)[order(aar, enhet_kat)]
+# 
+# 
+# # Alle år (x-aksen)
+# alle_aar <- sort(unique(tab_plot_fluid$aar))
+# 
+# # Fikse: 
+# # i figuren er det 2 linjer av hver variabel..
+# 
+# 
+# # Start chart
+# hc_linje_fluid <- highchart() %>%
+#   hc_title(text = "Forsyningskilde e-sigarett nikotinvæske over tid") %>%
+#  # hc_subtitle(text = "NA utelatt; enhet 1–7") %>%
+#   hc_xAxis(
+#     title = list(text = "År"),
+#     categories = alle_aar,
+#     tickmarkPlacement = "on"
+#   ) %>%
+#   hc_yAxis(
+#    # title = list(text = "Andel (%)"),
+#     max = 100, min = 0
+#   ) %>%
+#   hc_tooltip(
+#     shared = TRUE,
+#     # Kun prosent i tooltip, med to desimaler:
+#     pointFormat = "<span style='color:{series.color}'>●</span> {series.name}: <b>{point.y:.2f} %</b><br/>"
+#   ) %>%
+#   hc_legend(enabled = TRUE) %>%
+#   hc_exporting(enabled = TRUE)
+# 
+# # Legg til én serie per kategori (y-verdier i prosent)
+# for (kat in unique(tab_plot_fluid$enhet_kat)) {
+#   dt <- tab_plot[enhet_kat == kat, .(aar, y = andel * 100)]  # konverter til prosent
+#   # Sørg for samme lengde/rekkefølge som x-aksen (alle_aar)
+#   dt_full <- data.table(aar = alle_aar)[dt, on = "aar"]
+#   dt_full[is.na(y), y := 0]
+# 
+#   hc_linje_fluid <- hc_linje_fluid %>%
+#     hc_add_series(
+#       name  = as.character(kat),
+#       data  = dt_full$y,  # numerisk vektor i prosent
+#       type  = "spline",
+#       color = farger[[as.character(kat)]],
+#       marker = list(enabled = TRUE)
+#     )
+# }
+# 
+# hc_linje_fluid
+# 
 
 
 ```
 
 #### Figur: Prosentandel fordeling av hvor forbrukere kjøper e-sigarett-enheten (uvektet), 2015-2025, personer i alderen 16-74 år.
 
-`r hc_linje`
+
 
 #### Figur: Prosentandel fordeling av hvor forbrukere kjøper væasken med nikotin til e-sigarett (uvektet), 2015-2025, personer i alderen 16-74 år.
 
-`r hc_linje_fluid`
+
 
 ```{r}
 
