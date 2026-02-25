@@ -4,6 +4,7 @@ format: html
 editor: visual
 ---
 
+
 ```{r}
 #| include: false
 #| echo: false
@@ -91,7 +92,7 @@ summary(for_2025$alder)
   for_2025 <- for_2025[alder <= 74]
 #  dt[, alder := as.integer(as.character(alder))]
   
-  # Fjern rader der alder < 16
+  # Fjern rader der alder < 16 - velger å beholde 16 eller høyere:
   for_2025 <- for_2025[alder >= 16]
 
  # dt <- dt[alder >= 16 & alder <= 74]
@@ -452,7 +453,7 @@ cols <- c(
 h <- highchart() %>%
   hc_chart(type = "spline") %>%
   hc_title(text = "Fordeling av siste døgns sigarettforbruk blant dagligrøykere fra ulike kilder") %>%
-  hc_subtitle(text = "Fordeling av kilder til sigaretter over tid") %>%
+  hc_subtitle(text = "Fordeling av forsyningskilder til sigaretter over tid") %>%
   hc_xAxis(
    # title = list(text = "?r"),
     categories = dt$aar,
@@ -533,7 +534,7 @@ setorder(dt_w, aar)
 h_w <- highchart() %>%
   hc_chart(type = "spline") %>%
   hc_title(text = "Fordeling av siste døgns sigarettforbruk (vektet) blant dagligrøykere fra ulike kilder") %>%
-  hc_subtitle(text = "Vektede andeler av kilder til sigaretter over tid") %>%
+  hc_subtitle(text = "Vektede andeler av forsyningskilder til sigaretter over tid") %>%
   hc_xAxis(
     categories = dt_w$aar,
     tickmarkPlacement = "on"
@@ -573,13 +574,12 @@ royk_vektet <- gt(dt_filtered) |>  tab_header(title = "Forsyningskilder sigarett
 
 `r h`
 
-Tall til figuren over: `r royk_uvektet`
 
-#### Figur: Prosentandel av siste døgns sigarettforbruk blant dagligrøykere som ble kjøpt fra ulike kilder (vektet), 2015-2025, personer i alderen 16-74 år.
+
+#### Figur A: Prosentandel av siste døgns sigarettforbruk blant dagligrøykere som ble kjøpt fra ulike kilder (vektet), 2015-2025, personer i alderen 16-74 år.
 
 `r h_w`
 
-Tall til den vektede figuren over: `r royk_vektet`
 
 ## Forsyningskilder snus
 
@@ -693,7 +693,7 @@ cols <- c(
 h_snus <- highchart() %>%
   hc_chart(type = "spline") %>%
   hc_title(text = "Fordeling av siste døgns snusforbruk blant dagligsnusere fra ulike kilder") %>%
-  hc_subtitle(text = "Fordeling av kilder til snus over tid") %>%
+  hc_subtitle(text = "Fordeling av forsyningskilder til snus over tid") %>%
   hc_xAxis(
    # title = list(text = "?r"),
     categories = dt_snus$aar,
@@ -775,7 +775,7 @@ setorder(dt_snus_w, aar)
 h_snus_w <- highchart() %>%
   hc_chart(type = "spline") %>%
   hc_title(text = "Fordeling av siste døgns snusforbruk (vektet) blant dagligsnusere fra ulike kilder") %>%
-  hc_subtitle(text = "Vektede andeler av kilder til snus over tid") %>%
+  hc_subtitle(text = "Vektede andeler av forsyningskilder til snus over tid") %>%
   hc_xAxis(
     categories = dt_snus_w$aar,
     tickmarkPlacement = "on"
@@ -877,23 +877,30 @@ write_xlsx(dt_snus_w_export, "O:/Prosjekt/Rusdata/Forsyningsundersokelsen/Data_F
 
 `r h_snus`
 
-Tall til den uvektede figuren over: `r snus_uvektet`
 
-#### Figur: Prosentandel av siste døgns snusforbruk blant dagligsnusere som ble kjøpt fra ulike kilder (vektet), 2015-2025, personer i alderen 16-74 år.
+#### Figur B: Prosentandel av siste døgns snusforbruk blant dagligsnusere som ble kjøpt fra ulike kilder (vektet), 2015-2025, personer i alderen 16-74 år.
 
 `r h_snus_w`
 
-Tall til den vektede figuren over: `r snus_vektet`
 
 ## Forsyningskilder e-sigaretter
+Vi publiserer ikke forsyningskilder til e-sigaretter grunnet reglene som tilsier at dette ikke er lov å kjøpe i Norge og vi ikke kjenner hvem som ev. har importert det grunnet legeerklæring. Tobakksdirektivet skal innføres i mars 2026.
 
-Frem til og med 2023 ble det stilt to spørsmål ifm forsyningskilder til e-sigaretter. Det var: \* På hvilken måte skaffet du deg den e-sigaretten du bruke sist? (Ae3OLD) \* På hvilken måte skaffet du deg væsken (e-juicen) i den esigaretten du brukte sist? (Ae3_1OLD)
+Frem til og med 2023 ble det stilt to spørsmål ifm forsyningskilder til e-sigaretter. Det var:
 
-Fra og med 2024 ble disse to spørsmålene erstatten med flere: \* Hvordan skaffer du deg vanligvis din ferdige utblandet nikotinvæske? (e3a) \* Hvordan skaffer du deg den nikotinvæsken som blandes inn i en smaksvæske? (e3b) \* Hvordan skaffer du deg vanligvis smaksvæske? (e3c) Samme filter som e3b. \* Hvordan skaffer du deg vanligvis engangsvapen/disposable? (e3d) \* Hvordan skaffer du deg vanligvis e-sigaretten/fordamperenheten med påfyllingsmulighet? OBS på at alle disse har filter knyttet til seg.
+* På hvilken måte skaffet du deg den e-sigaretten du bruke sist? (Ae3OLD) 
+* På hvilken måte skaffet du deg væsken (e-juicen) i den esigaretten du brukte sist? (Ae3_1OLD)
 
-Svaralternativene på spørsmålene over er like, både for og etter 2023/2024.
+Fra og med 2024 ble disse to spørsmålene erstattet med følgende: 
 
-Fordelingen av forsyningskilder for e-sigaretter i perioden 2015-2025 er vist i figuren under.
+* Hvordan skaffer du deg vanligvis din ferdige utblandet nikotinvæske? (e3a) 
+* Hvordan skaffer du deg den nikotinvæsken som blandes inn i en smaksvæske? (e3b) 
+* Hvordan skaffer du deg vanligvis smaksvæske? (e3c) Samme filter som e3b. 
+* Hvordan skaffer du deg vanligvis engangsvapen/disposable? (e3d) 
+* Hvordan skaffer du deg vanligvis e-sigaretten/fordamperenheten med påfyllingsmulighet? OBS på at alle disse har filter knyttet til seg.
+
+Svaralternativene på spørsmålene over er like, både før og etter 2023/2024.
+
 
 ```{r}
 #| include: false
@@ -1170,37 +1177,6 @@ Fordelingen av forsyningskilder for e-sigaretter i perioden 2015-2025 er vist i 
 
 ```
 
-#### Figur: Prosentandel fordeling av hvor forbrukere kjøper e-sigarett-enheten (uvektet), 2015-2025, personer i alderen 16-74 år.
-
-
-
-#### Figur: Prosentandel fordeling av hvor forbrukere kjøper væasken med nikotin til e-sigarett (uvektet), 2015-2025, personer i alderen 16-74 år.
-
-
-
-```{r}
-
-
-```
-
-```{r}
-
-
-
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
 
 ```{r}
 
