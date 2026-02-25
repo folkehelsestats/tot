@@ -652,6 +652,7 @@ sum_snus_year <- forsnus[
 
 ## Figur p? forsyning av snus over tid:
 library(highcharter)
+library(dplyr)
 
 
 # Sikre data.table
@@ -757,9 +758,9 @@ sum_snus_year_w <- forsnus[
   by = aar,
   .SDcols = sum_vars_snus]
 
-# Tabell med tall med N:
   
-
+# Tall til figuren over:
+snus_uvektet <- gt(dt_snus) |>  tab_header(title = "Forsyningskilder snus uvektet") |> fmt_number(columns = c(nor, taxfree, smu, sverige, danmark, utland, nor_nett, utland_nett), decimals = 1) |> cols_label(aar = "År", nor = "Norge (butikk)", taxfree = "Taxfree", smu = "Smuglevare", sverige = "Sverige (butikk)", danmark = "Danmark (butikk)", utland = "Utland", nor_nett = "Norge (nett)", utland_nett = "Utland (nett)", sum_totnsnus = "N snus")
   
   
 # --- Vektet figur: andeler over tid (fra sum_snus_year_w) ---
@@ -803,6 +804,72 @@ for (nm in andel_cols) {
 h_snus_w
 
 
+# Tall til figuren over:
+snus_vektet <- gt(dt_snus_w) |>  tab_header(title = "Forsyningskilder snus vektet") |> fmt_number(columns = c(nor, taxfree, smu, sverige, danmark, utland, nor_nett, utland_nett), decimals = 1) |> cols_label(aar = "År", nor = "Norge (butikk)", taxfree = "Taxfree", smu = "Smuglevare", sverige = "Sverige (butikk)", danmark = "Danmark (butikk)", utland = "Utland", nor_nett = "Norge (nett)", utland_nett = "Utland (nett)", sum_totnsnus = "N snus")
+
+
+
+
+
+snus_vektet <- dt_snus_w |>
+  select(
+    aar, 
+    nor, taxfree, smu, sverige, danmark, 
+    utland, nor_nett, utland_nett
+  ) |>
+  gt() |>
+  tab_header(
+    title = "Forsyningskilder snus vektet"
+  ) |>
+  fmt_number(
+    columns = c(
+      nor, taxfree, smu, sverige, danmark,
+      utland, nor_nett, utland_nett
+    ),
+    decimals = 1
+  ) |>
+  cols_label(
+    aar = "År",
+    nor = "Norge (butikk)",
+    taxfree = "Taxfree",
+    smu = "Smuglevare",
+    sverige = "Sverige (butikk)",
+    danmark = "Danmark (butikk)",
+    utland = "Utland",
+    nor_nett = "Norge (nett)",
+    utland_nett = "Utland (nett)"
+  )
+
+snus_vektet
+
+
+# Lagre tabeller som excel-filer:
+
+library(dplyr)
+library(writexl)
+
+  # RØYK, vektet:
+dt_w_export <- dt_w |>
+  select(
+    aar, N, sum_totnroyk,
+    nor, taxfree, smu, sverige, danmark,
+    utland, nor_nett, utland_nett
+  )
+
+write_xlsx(dt_w_export, "O:/Prosjekt/Rusdata/Forsyningsundersokelsen/Data_Forsyn_2015_2024/Analyser 2025/royk_vektet.xlsx")
+
+
+  # SNUS, vektet:
+dt_snus_w_export <- dt_snus_w |>
+  select(
+    aar, N, sum_totnsnus,
+    nor, taxfree, smu, sverige, danmark,
+    utland, nor_nett, utland_nett
+  )
+
+write_xlsx(dt_snus_w_export, "O:/Prosjekt/Rusdata/Forsyningsundersokelsen/Data_Forsyn_2015_2024/Analyser 2025/snus_vektet.xlsx")
+
+
 
 ```
 
@@ -810,9 +877,13 @@ h_snus_w
 
 `r h_snus`
 
+Tall til den uvektede figuren over: `r snus_uvektet`
+
 #### Figur: Prosentandel av siste døgns snusforbruk blant dagligsnusere som ble kjøpt fra ulike kilder (vektet), 2015-2025, personer i alderen 16-74 år.
 
 `r h_snus_w`
+
+Tall til den vektede figuren over: `r snus_vektet`
 
 ## Forsyningskilder e-sigaretter
 
