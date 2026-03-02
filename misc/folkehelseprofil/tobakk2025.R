@@ -106,7 +106,7 @@ dx <- groupingsets(
 royk <- dcast(dx, kjonn + age5 + utdann_4gr + fylke_2025 ~ roykstat2chr, value.var = c("N"))
 royk[, `NA` := NULL]
 
-fwrite(royk, "misc//folkehelseprofil/roykstatus_2025.csv")
+fwrite(royk, "misc/folkehelseprofil/roykstatus_2025.csv")
 
 
 
@@ -201,4 +201,4 @@ DX <- groupingsets(
 royk24 <- dcast(DX, kjonn + age5 + utdann_4gr + fylke_2024 ~ roykstat2chr, value.var = c("N"))
 royk24[, `NA` := NULL]
 
-fwrite(royk24, "misc//folkehelseprofil/roykstatus_2024.csv")
+fwrite(royk24, "misc/folkehelseprofil/roykstatus_2024.csv")
