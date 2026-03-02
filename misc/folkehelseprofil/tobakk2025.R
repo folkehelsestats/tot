@@ -1,8 +1,8 @@
 ## Datasett til Folkehelseprofilen 2025:
-## ----------------------------------------- Tobakk Analysen for tidligere
-## levering kan ses i "tobakkstall til profilene.do" filen, men det er ikke
-## tydelig hvordan definisjon for royk1, royk2 og royk3 er gjort, så jeg har
-## valgt å gjøre det på nytt basert på tob1, tob2, tob13 og tob14 som brukes i
+## ----------------------------------------- 
+## Tobakk Analysen for tidligere levering kan ses i "tobakkstall til profilene.do" filen,
+## men det er ikke tydelig hvordan definisjon for royk1, royk2 og royk3 er gjort,
+## så jeg har valgt å gjøre det på nytt basert på tob1, tob2, tob13 og tob14 som brukes i
 ## OECD filen. Det kan være at det er noen små forskjeller i definisjonen.
 
 ## Path to data and standard setup
