@@ -40,7 +40,7 @@ for (i in tvars) {
 # Build a list of frequency tables, one per variable
 freq_list <- setNames(
   lapply(tvars, function(v) {
-    out <- dt[, .N, by = mget(v)]      # mget() preserves the original column name
+    out <- dt[, .N, by = mget(v)]
     setorder(out, -N)                  # sort descending by frequency
     out
   }),
@@ -67,12 +67,12 @@ dt[, roykstatus := fcase(
      default = NA
      )]
 
-## Rrøykerstatus 1-6: 1 = Røyker nå, 2 = Røykte før, 3 = Ikke nå, 4 = Aldri røkt
+## Rrøykerstatus 1-6: 1 = Daglig, 2 = Av og til, 3 = Tidligere, 4 = Aldri
 ## for Folkehelseprofilen 2025.
-dt[, roykstat2 := fcase(roykstatus == 1, 1, #Røyker nå
-                        roykstatus %in% c(2, 3), 2, #Røykte før
-                        roykstatus %in% c(4,5), 3, #Ikke nå
-                        roykstatus == 6, 4, #Aldri røkt
+dt[, roykstat2 := fcase(roykstatus == 1, 1, #Daglig
+                        roykstatus %in% c(2, 3), 2, #Av og til
+                        roykstatus %in% c(4,5), 3, #Tidligere
+                        roykstatus == 6, 4, #Aldri
                         default = NA)]
 
 dt[, roykstat2chr := factor(roykstat2, levels = 1:4, labels = c("daglig", "avogtil", "tidligere", "aldri"))]
@@ -135,7 +135,7 @@ for (i in tvars) {
 # Build a list of frequency tables, one per variable
 freq_list <- setNames(
   lapply(tvars, function(v) {
-    out <- DT[, .N, by = mget(v)]      # mget() preserves the original column name
+    out <- DT[, .N, by = mget(v)]
     setorder(out, -N)                  # sort descending by frequency
     out
   }),
@@ -162,17 +162,17 @@ DT[, roykstatus := fcase(
      default = NA
      )]
 
-## Rrøykerstatus 1-6: 1 = Røyker nå, 2 = Røykte før, 3 = Ikke nå, 4 = Aldri røkt
-## for Folkehelseprofilen 2025.
-DT[, roykstat2 := fcase(roykstatus == 1, 1, #Røyker nå
-                        roykstatus %in% c(2, 3), 2, #Røykte før
-                        roykstatus %in% c(4,5), 3, #Ikke nå
-                        roykstatus == 6, 4, #Aldri røkt
+## Rrøykerstatus 1-6: 1 = Daglig, 2 = Av og til, 3 = Tidligere, 4 = Aldri
+## for Folkehelseprofilen 2024.
+DT[, roykstat2 := fcase(roykstatus == 1, 1, #Daglig
+                        roykstatus %in% c(2, 3), 2, #Av og til
+                        roykstatus %in% c(4,5), 3, #Tidligere
+                        roykstatus == 6, 4, #Aldri
                         default = NA)]
 
 DT[, roykstat2chr := factor(roykstat2, levels = 1:4, labels = c("daglig", "avogtil", "tidligere", "aldri"))]
 
-## Age groups for Folkehelseprofilen 2025
+## Age groups for Folkehelseprofilen 2024
 breaks <- c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80)
 labels <- c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49",
             "50-54", "55-59", "60-64", "65-69", "70-74", "75+")
