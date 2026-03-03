@@ -100,11 +100,19 @@ dx <- groupingsets(
   by = vars,
   sets = list(
     vars
-    )
+  )
 )
 
 royk <- dcast(dx, kjonn + age5 + utdann_4gr + fylke_2025 ~ roykstat2chr, value.var = c("N"))
 royk[, `NA` := NULL]
+
+royk[, aar := 2025]
+
+oldNames <- names(royk)
+utd <- oldNames[grepl("utdann", oldNames)]
+fylke <- oldNames[grepl("fylke", oldNames)]
+data.table::setnames(royk, c(utd, fylke), c("utdanning", "fylke"))
+setcolorder(royk, c("aar", "fylke"), before = "kjonn")
 
 fwrite(royk, "misc/folkehelseprofil/roykstatus_2025.csv")
 
@@ -195,10 +203,19 @@ DX <- groupingsets(
   by = vars,
   sets = list(
     vars
-    )
+  )
 )
 
 royk24 <- dcast(DX, kjonn + age5 + utdann_4gr + fylke_2024 ~ roykstat2chr, value.var = c("N"))
 royk24[, `NA` := NULL]
+
+royk24[, aar := 2024]
+
+oldNames <- names(royk24)
+utd <- oldNames[grepl("utdann", oldNames)]
+fylke <- oldNames[grepl("fylke", oldNames)]
+data.table::setnames(royk24, c(utd, fylke), c("utdanning", "fylke"))
+royk24[, fylke := as.numeric(fylke)]
+setcolorder(royk24, c("aar", "fylke"), before = "kjonn")
 
 fwrite(royk24, "misc/folkehelseprofil/roykstatus_2024.csv")
