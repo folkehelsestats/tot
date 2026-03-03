@@ -46,7 +46,7 @@ tab aar
 	lab define alder_10 1 "16-25" 2 "26-35" 3 "36-45" 4 "46-55" 5 "56-65" 6 "66-75", replace
 	lab val alder_10 alder_10
 
-tab alder_4
+	tab alder_4
 
 *** Lager variabler for røyk, snus og damp i tråd med FHIs koder:
 

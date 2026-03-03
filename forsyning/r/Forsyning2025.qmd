@@ -421,12 +421,12 @@ dt <- as.data.table(sum_royk_year)
 if (!is.numeric(dt$aar)) dt[, aar := as.integer(aar)]
 setorder(dt, aar)
 
-# Definer rekkef?lge og etiketter
+# Definer rekkefølge og etiketter
 andel_cols <- c("nor","taxfree","smu","sverige","danmark","utland","nor_nett","utland_nett")
 labels_map <- c(
   nor = "Norge (butikk)",
   taxfree = "Taxfree",
-  smu = "Smuglevare",
+  smu = "Billig pris",
   sverige = "Sverige (butikk)",
   danmark = "Danmark (butikk)",
   utland = "Utland",
@@ -663,7 +663,7 @@ andel_cols <- c("nor","taxfree","smu","sverige","danmark","utland","nor_nett","u
 labels_map <- c(
   nor = "Norge (butikk)",
   taxfree = "Taxfree",
-  smu = "Smuglevare",
+  smu = "Billig pris",
   sverige = "Sverige (butikk)",
   danmark = "Danmark (butikk)",
   utland = "Utland",
@@ -826,14 +826,14 @@ snus_vektet <- dt_snus_w |>
   ) |>
   cols_label(
     aar = "År",
-    nor = "Norge (butikk)",
-    taxfree = "Taxfree",
-    smu = "Smuglevare",
-    sverige = "Sverige (butikk)",
-    danmark = "Danmark (butikk)",
-    utland = "Utland",
-    nor_nett = "Norge (nett)",
-    utland_nett = "Utland (nett)"
+  nor = "Norge (butikk)",
+  taxfree = "Taxfree",
+  smu = "Billig pris",
+  sverige = "Sverige (butikk)",
+  danmark = "Danmark (butikk)",
+  utland = "Utland",
+  nor_nett = "Norge (nett)",
+  utland_nett = "Utland (nett)"
   )
 
 snus_vektet
