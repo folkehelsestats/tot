@@ -79,8 +79,9 @@ dt[, roykstat2chr := factor(roykstat2, levels = 1:4, labels = c("daglig", "avogt
 
 ## Age groups for Folkehelseprofilen 2025
 breaks <- c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80)
+maxAge <- paste0("75-", max(dt$alder, na.rm = TRUE))
 labels <- c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49",
-            "50-54", "55-59", "60-64", "65-69", "70-74", "75+")
+            "50-54", "55-59", "60-64", "65-69", "70-74", maxAge)
 
 dt <- torr::group_age(dt, "alder",
                       breaks = breaks,
@@ -182,8 +183,9 @@ DT[, roykstat2chr := factor(roykstat2, levels = 1:4, labels = c("daglig", "avogt
 
 ## Age groups for Folkehelseprofilen 2024
 breaks <- c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80)
+maxAge <- paste0("75-", max(dt$alder, na.rm = TRUE))
 labels <- c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49",
-            "50-54", "55-59", "60-64", "65-69", "70-74", "75+")
+            "50-54", "55-59", "60-64", "65-69", "70-74", maxAge)
 
 DT <- torr::group_age(DT, "alder",
                       breaks = breaks,
