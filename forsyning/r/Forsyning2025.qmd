@@ -426,7 +426,7 @@ andel_cols <- c("nor","taxfree","smu","sverige","danmark","utland","nor_nett","u
 labels_map <- c(
   nor = "Norge (butikk)",
   taxfree = "Taxfree",
-  smu = "Billig pris",
+  smu = "Annan",
   sverige = "Sverige (butikk)",
   danmark = "Danmark (butikk)",
   utland = "Utland",
@@ -483,7 +483,7 @@ h
 
 # Tabell med tall over:
 
-royk_uvektet <- gt(dt) |>  tab_header(title = "Forsyningskilder sigaretter") |> fmt_number(columns = c(nor, taxfree, smu, sverige, danmark, utland, nor_nett, utland_nett), decimals = 1) |> cols_label(aar = "År", As2.1 = "Norge (butikk)", As2.2 = "Taxfree", As2.3 = "Smuglevare", As2.4 = "Sverige (butikk)", As2.5 = "Danmark (butikk)", As2.6 = "Utland", As2.7 = "Norge (nett)", As2.8 = "Utland (nett)", sum_totnroyk = "N røyk")
+royk_uvektet <- gt(dt) |>  tab_header(title = "Forsyningskilder sigaretter") |> fmt_number(columns = c(nor, taxfree, smu, sverige, danmark, utland, nor_nett, utland_nett), decimals = 1) |> cols_label(aar = "År", As2.1 = "Norge (butikk)", As2.2 = "Taxfree", As2.3 = "Annan", As2.4 = "Sverige (butikk)", As2.5 = "Danmark (butikk)", As2.6 = "Utland", As2.7 = "Norge (nett)", As2.8 = "Utland (nett)", sum_totnroyk = "N røyk")
 
 ## Vektede tall:
 
@@ -564,7 +564,7 @@ h_w
 dt_filtered <- dt_w[, !names(dt_w) %in% paste0("As", 2.1:2.8), with = FALSE]
 
 # Tall til figuren over:
-royk_vektet <- gt(dt_filtered) |>  tab_header(title = "Forsyningskilder sigaretter vektet") |> fmt_number(columns = c(nor, taxfree, smu, sverige, danmark, utland, nor_nett, utland_nett), decimals = 1) |> cols_label(aar = "År", nor = "Norge (butikk)", taxfree = "Taxfree", smu = "Smuglevare", sverige = "Sverige (butikk)", danmark = "Danmark (butikk)", utland = "Utland", nor_nett = "Norge (nett)", utland_nett = "Utland (nett)", sum_totnroyk = "N røyk")
+royk_vektet <- gt(dt_filtered) |>  tab_header(title = "Forsyningskilder sigaretter vektet") |> fmt_number(columns = c(nor, taxfree, smu, sverige, danmark, utland, nor_nett, utland_nett), decimals = 1) |> cols_label(aar = "År", nor = "Norge (butikk)", taxfree = "Taxfree", smu = "Annan", sverige = "Sverige (butikk)", danmark = "Danmark (butikk)", utland = "Utland", nor_nett = "Norge (nett)", utland_nett = "Utland (nett)", sum_totnroyk = "N røyk")
 
 
 ```
@@ -663,7 +663,7 @@ andel_cols <- c("nor","taxfree","smu","sverige","danmark","utland","nor_nett","u
 labels_map <- c(
   nor = "Norge (butikk)",
   taxfree = "Taxfree",
-  smu = "Billig pris",
+  smu = "Annan",
   sverige = "Sverige (butikk)",
   danmark = "Danmark (butikk)",
   utland = "Utland",
@@ -828,7 +828,7 @@ snus_vektet <- dt_snus_w |>
     aar = "År",
   nor = "Norge (butikk)",
   taxfree = "Taxfree",
-  smu = "Billig pris",
+  smu = "Annan",
   sverige = "Sverige (butikk)",
   danmark = "Danmark (butikk)",
   utland = "Utland",
