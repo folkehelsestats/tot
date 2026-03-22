@@ -128,6 +128,7 @@ DT <- as.data.table(DT)
 setnames(DT, names(DT), tolower(names(DT)))
 
 DT[, .N, keyby = kjonn]
+DT[, kjonn := fifelse(kjonn == 1, 2, 1)] #data 2024 har 0=menn 2=kvinner
 
 ## Check for missing value for vekting
 DT[, vekt2 := as.numeric(sub(",", ".", vekt))]
