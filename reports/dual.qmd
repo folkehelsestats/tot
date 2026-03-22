@@ -1,0 +1,62 @@
+---
+title: "Dual bruk av tobakksprodukt og/eller vape"
+format:
+  html:
+    toc: true
+    toc-location: left
+    fig-cap-location: bottom
+execute:
+ echo: false
+---
+
+
+```{r}
+#| label: setup
+#| warning: false
+
+library("highdir")
+source("c:/Users/ykama/Git-hdir/tot/reports/tobakkstat2025.R")
+
+gender <- data.table(
+  kjonn = c("1", "2", "Total"),
+  kjonnCat = c("Menn", "Kvinner", "Total")
+)
+
+```
+
+# Sigarett og snus
+
+```{r}
+
+rs[gender, gender := i.kjonnCat, on = "kjonn"]
+
+spec_rs <- hd_spec(data = rs, x = "gender", y = "percentage", n = "n_outcome_1")
+opts_rs <- hd_opts(title = "Dual: Sigarett og snus", yint = 2)
+
+hd_make(spec_rs, "column", opts = opts_rs)
+```
+
+# Sigarett og vipe
+
+```{r}
+
+re[gender, gender := i.kjonnCat, on = "kjonn"]
+
+spec_re <- hd_spec(data = re, x = "gender", y = "percentage", n = "n_outcome_1")
+opts_re <- hd_opts(title = "Dual: Sigarett og snus", yint = 2)
+
+hd_make(spec_re, "column", opts = opts_re)
+```
+
+# Snus + vipe
+
+
+```{r}
+
+se[gender, gender := i.kjonnCat, on = "kjonn"]
+
+spec_se <- hd_spec(data = se, x = "gender", y = "percentage", n = "n_outcome_1")
+opts_se <- hd_opts(title = "Dual: Sigarett og snus", yint = 2)
+
+hd_make(spec_se, "column", opts = opts_se)
+```
