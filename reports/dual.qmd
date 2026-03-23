@@ -51,8 +51,8 @@ hd_make(spec_dual, "column", opts = opts_dual)
 
 ```{r}
 
-title = "Andel som kombinerer bruk av fleire produkt blant dei som bruker tobakk og/eller vape i ulike aldersgrupper, 2025"
-subtitle = "Bruker to eller tre ulike tobakksprodukt og/eller vape dagleg eller av og til"
+title = "Andel som kombinerer bruk av to produkter blant dei som bruker tobakk og/eller vape i ulike aldersgrupper, 2025"
+subtitle = "Bruker to ulike tobakksprodukt og/eller vape dagleg eller av og til"
 caption = "Helsedirektoratet, tal frå Rus- og tobakksundersøkinga (SSB)"
 
 drse <- dualDTAge[type2 == "rse"]
