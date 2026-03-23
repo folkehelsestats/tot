@@ -104,7 +104,7 @@ re <- calc_percentage_total_ci(dt,
                                include_total = TRUE
                                )
 
-re[, type := "Vipe og sigarettar"]
+re[, type := "Vape og sigarettar"]
 
 # Snus + e-sig
 se <- calc_percentage_total_ci(dt,
@@ -115,7 +115,7 @@ se <- calc_percentage_total_ci(dt,
                                include_total = TRUE
                                )
 
-se[, type := "Vipe og snus"]
+se[, type := "Vape og snus"]
 
 # Combi av alle 3
 rse <- calc_percentage_total_ci(dt,
