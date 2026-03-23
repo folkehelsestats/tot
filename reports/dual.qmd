@@ -50,22 +50,55 @@ hd_make(spec_dual, "column", opts = opts_dual)
 
 ```{r}
 
-spec_dual_age <- hd_spec(data = dualDTAge,
-                         x = "age3",
-                         y = "percentage",
-                         group = "type",
-                         n = "n_outcome_1")
+title = "Andel som kombinerer bruk av fleire produkt blant dei som bruker tobakk og/eller vape, 2025"
+subtitle = "Aldersgrupper 16 - 79 år"
+caption = "Helsedirektoratet, tal frå Rus- og tobakksundersøkinga (SSB)"
 
-opts_dual_age <- hd_opts(title = "Andel som kombinerer bruk av fleire produkt blant dei som bruker tobakk og/eller vape, 2025",
-                     subtitle = "Aldersgrupper 16 - 79 år",
-                     caption = "Helsedirektoratet, tal frå Rus- og tobakksundersøkinga (SSB)",
-                     yint = 5,
-                     ysuffix = "%",
-                     ylab = NULL,
-                     xlab = NULL,
-                     ylim = c(0,35))
+# -------------------------------
+# 2. Reshape to wide format
+# -------------------------------
+dtt_wide <- dcast(dualDTAge, alder ~ type2 + dual, value.var = "percentage")
 
-hd_make(spec_dual_age, "column", opts = opts_dual_age)
+# -------------------------------
+# 3. Build stacked chart
+# -------------------------------
+highchart() |>
+  hc_chart(type = "column") |>
+  hc_xAxis(categories = dtt_wide$alder) |>
+  hc_plotOptions(column = list(stacking = "normal")) |>
+  hc_add_series(name = "Snus og sigarettar", data = dtt_wide$rs_1, stack = "stack1") |>
+  hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$rs_3, stack = "stack1") |>
+  hc_add_series(name = "Vipe og sigarettar", data = dtt_wide$re_1, stack = "stack2") |>
+  hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$re_3, stack = "stack2") |>
+  hc_add_series(name = "Vipe og snus", data = dtt_wide$se_1, stack = "stack3") |>
+  hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$se_3, stack = "stack3") |>
+  hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$rse_3, stack = "stack4") |>
+  hc_title(text = title) |>
+  hc_yAxis(title = list(text = "Value")) |>
+  highcharter::hc_exporting(
+    enabled       = TRUE,
+    filename      = "highdir-figure",
+    accessibility = list(enabled = TRUE)
+  ) |>
+  highcharter::hc_subtitle(
+    text = subtitle
+  ) |>
+  highcharter::hc_caption(text = caption)
+
 
 ```
 
+## Figur 19 - alternativ
+
+```{r}
+
+drse <- dualDTAge[type2 == "rse"]
+dualDX <- dualDTAge[dual != 3]
+
+ddx <- rbindlist(list(dualDX, drse))
+
+spec2 <- hd_spec(data = ddx, x = "alder", y = "percentage", group = "type")
+opt2 <- hd_opts(title = title, subtitle = subtitle, caption = caption, ylab = NULL, xlab = NULL, ysuffix = "%")
+hd_make(spec2, "column", opt2)
+
+```
