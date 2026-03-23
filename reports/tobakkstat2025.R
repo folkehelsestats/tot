@@ -185,7 +185,7 @@ reAge[idxAge, on = "idxAge", alder := i.age3str]
 reAge[is.na(alder), alder := "Totalt"]
 reAge <- reAge[dual_re != 0]
 
-reAge[, type := "Vipe og sigarettar"]
+reAge[, type := "Vape og sigarettar"]
 reAge[, type2 := "re"]
 
 colx <- c("idxAge", "weighted_count", "sum")
@@ -202,7 +202,7 @@ seAge[idxAge, on = "idxAge", alder := i.age3str]
 seAge[is.na(alder), alder := "Totalt"]
 seAge <- seAge[dual_se != 0]
 
-seAge[, type := "Vipe og snus"]
+seAge[, type := "Vape og snus"]
 seAge[, type2 := "se"]
 
 colx <- c("idxAge", "weighted_count", "sum")
@@ -249,9 +249,9 @@ dualDTAge[dualCat, on = "dual", dualstr := i.dualStr]
 #   hc_plotOptions(column = list(stacking = "normal")) |>
 #   hc_add_series(name = "Snus og sigarettar", data = dtt_wide$rs_1, stack = "stack1") |>
 #   hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$rs_3, stack = "stack1") |>
-#   hc_add_series(name = "Vipe og sigarettar", data = dtt_wide$re_1, stack = "stack2") |>
+#   hc_add_series(name = "Vape og sigarettar", data = dtt_wide$re_1, stack = "stack2") |>
 #   hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$re_3, stack = "stack2") |>
-#   hc_add_series(name = "Vipe og snus", data = dtt_wide$se_1, stack = "stack3") |>
+#   hc_add_series(name = "Vape og snus", data = dtt_wide$se_1, stack = "stack3") |>
 #   hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$se_3, stack = "stack3") |>
 #   hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$rse_3, stack = "stack4") |>
 #   hc_title(text = "Stacked Column Chart (highcharter)") |>

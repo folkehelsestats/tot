@@ -90,9 +90,9 @@ highchart() |>
   hc_plotOptions(column = list(stacking = "normal")) |>
   hc_add_series(name = "Snus og sigarettar", data = dtt_wide$rs_1, stack = "stack1") |>
   hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$rs_3, stack = "stack1") |>
-  hc_add_series(name = "Vipe og sigarettar", data = dtt_wide$re_1, stack = "stack2") |>
+  hc_add_series(name = "Vape og sigarettar", data = dtt_wide$re_1, stack = "stack2") |>
   hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$re_3, stack = "stack2") |>
-  hc_add_series(name = "Vipe og snus", data = dtt_wide$se_1, stack = "stack3") |>
+  hc_add_series(name = "Vape og snus", data = dtt_wide$se_1, stack = "stack3") |>
   hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$se_3, stack = "stack3") |>
   hc_add_series(name = "Vape, snus og sigarettar", data = dtt_wide$rse_3, stack = "stack4") |>
   hc_title(text = title) |>
