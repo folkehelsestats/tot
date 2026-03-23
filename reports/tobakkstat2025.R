@@ -67,8 +67,9 @@ dt[, combiCat := data.table::fcase(
   default = NA_character_
 )]
 
-dt[, combiCase := fifelse(combi3 == 3, 1, NA)]
+dt[, combiCase := fifelse(combi3 == 3, 1, 0)]
 
+dt[, popSub := fifelse(combi3 != 0, 1, NA)]
 
 # Dual bruker, combi bruker inkludert ------------------------------------------
 dt[, dual_rs_n := royk2 + snus1]   # royk + snus
@@ -80,42 +81,111 @@ dt[, dual_re := fifelse(dual_re_n == 2, 1, 0)]
 dt[, dual_se := fifelse(dual_se_n == 2, 1, 0)]
 
 
-## Age ---------------------------------------------------------------
-dt <- torr::group_age_standard(dt, "alder", type = "rusund", new_var = "agecat")
-
+## Kjønn fordeling
 ## At least one of them ----------------------------------------------
 
 # Røyk + snus
 rs <- calc_percentage_total_ci(dt,
                                outcome_var = "dual_rs",
                                group_vars = "kjonn",
-                               denominator_var = "totPop",
+                               denominator_var = "popSub",
                                weight_var = "vekt",
                                include_total = TRUE
                                )
 
-rs[, type := "Snus og sigarett"]
+rs[, type := "Snus og sigarettar"]
 
 # Røyk + e-sig
 re <- calc_percentage_total_ci(dt,
                                outcome_var = "dual_re",
                                group_vars = "kjonn",
-                               denominator_var = "totPop",
+                               denominator_var = "popSub",
                                weight_var = "vekt",
                                include_total = TRUE
                                )
 
-re[, type := "Vipe og sigarett"]
+re[, type := "Vipe og sigarettar"]
 
 # Snus + e-sig
 se <- calc_percentage_total_ci(dt,
                                outcome_var = "dual_se",
                                group_vars = "kjonn",
-                               denominator_var = "totPop",
+                               denominator_var = "popSub",
                                weight_var = "vekt",
                                include_total = TRUE
                                )
 
 se[, type := "Vipe og snus"]
 
-dualDT <- data.table::rbindlist(list(rs, re, se))
+# Combi av alle 3
+rse <- calc_percentage_total_ci(dt,
+                               outcome_var = "combiCase",
+                               group_vars = "kjonn",
+                               denominator_var = "popSub",
+                               weight_var = "vekt",
+                               include_total = TRUE
+                               )
+
+
+rse[, type := "Vape, snus og sigarettar"]
+
+
+dualDT <- data.table::rbindlist(list(rs, re, se, rse))
+
+### Alders fordeling -----------------------------------------------------------
+## Age ---------------------------------------------------------------
+# dt <- torr::group_age_standard(dt, "alder", type = "rusund", new_var = "agecat")
+
+dt <- torr::group_age(dt, var = "alder",
+                   breaks = c(16, 25, 55, Inf),
+                   labels = c("16-24", "25-54", "55-79"),
+                   new_var = "age3",
+                   copy = FALSE)
+
+# Røyk + snus
+rsAge <- calc_percentage_total_ci(dt,
+                               outcome_var = "dual_rs",
+                               group_vars = "age3",
+                               denominator_var = "popSub",
+                               weight_var = "vekt",
+                               include_total = FALSE
+                               )
+
+rsAge[, type := "Snus og sigarettar"]
+
+# Røyk + e-sig
+reAge <- calc_percentage_total_ci(dt,
+                               outcome_var = "dual_re",
+                               group_vars = "age3",
+                               denominator_var = "popSub",
+                               weight_var = "vekt",
+                               include_total = FALSE
+                               )
+
+reAge[, type := "Vipe og sigarettar"]
+
+# Snus + e-sig
+seAge <- calc_percentage_total_ci(dt,
+                               outcome_var = "dual_se",
+                               group_vars = "age3",
+                               denominator_var = "popSub",
+                               weight_var = "vekt",
+                               include_total = FALSE
+                               )
+
+seAge[, type := "Vipe og snus"]
+
+# Combi av alle 3
+rseAge <- calc_percentage_total_ci(dt,
+                               outcome_var = "combiCase",
+                               group_vars = "age3",
+                               denominator_var = "popSub",
+                               weight_var = "vekt",
+                               include_total = FALSE
+                               )
+
+
+rseAge[, type := "Vape, snus og sigarettar"]
+
+
+dualDTAge <- data.table::rbindlist(list(rsAge, reAge, seAge, rseAge))

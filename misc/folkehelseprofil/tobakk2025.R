@@ -7,7 +7,8 @@
 
 ## Path to data and standard setup
 ## --------------------------------------------------
-defaultOpt <- options()
+# defaultOpt <- options()
+
 ## options(scipen = 999) # disable scientific notation
 source("https://raw.githubusercontent.com/folkehelsestats/rusus/refs/heads/main/folder-path.R")
 source("https://raw.githubusercontent.com/folkehelsestats/rusus/refs/heads/main/setup.R")
