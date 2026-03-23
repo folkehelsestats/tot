@@ -24,6 +24,21 @@ gender <- data.table(
 
 ```
 
+## Dual bruk
+
+```{r}
+
+dualDT[gender, gender := i.kjonnCat, on = "kjonn"]
+
+spec_dual <- hd_spec(data = dualDT, x = "type", y = "percentage", group = "gender", n = "n_outcome_1")
+opts_dual <- hd_opts(title = "Dual bruk", yint = 2)
+
+hd_make(spec_dual, "column", opts = opts_dual)
+
+```
+
+
+
 # Sigarett og snus
 
 ```{r}

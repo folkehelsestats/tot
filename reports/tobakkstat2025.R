@@ -26,12 +26,14 @@ dt[, vekt := gsub(",", ".", vekt)]
 dt[, vekt := as.numeric((vekt))]
 
 # Populasjon -------------------------------------------------------------------
-dt[, roykPop1 := data.table::fifelse(tob1  %in% 1:3, 1L, 0L, na = 0L)]
-dt[, roykPop2 := data.table::fifelse(tob2  %in% 1:3, 1L, 0L, na = 0L)]
-dt[, snusPop1  := data.table::fifelse(tob60 %in% 1:3, 1L, 0L, na = 0L)]
-dt[, esigPop1  := data.table::fifelse(tobe %in% 1:3, 1L, 0L, na = 0L)]
 
-popCols <- c("roykPop2", "snusPop1", "esigPop1")
+dt[is.na(tob2), roykPop := 1]
+dt[, roykPop := fifelse(!(tob2 %in% 8:9), 1, NA)]
+
+dt[, snusPop  := data.table::fifelse(tob60 %in% 1:3, 1L,NA)]
+dt[, esigPop  := data.table::fifelse(tobe %in% 1:3, 1L, NA)]
+
+popCols <- c("roykPop", "snusPop", "esigPop")
 dt[, totPop_n := rowSums(.SD, na.rm = TRUE), .SDcols = popCols]
 dt[, totPop := fifelse(totPop_n %in% 1:3, 1, 0)]
 
@@ -65,7 +67,8 @@ dt[, combiCat := data.table::fcase(
   default = NA_character_
 )]
 
-# dt[, .N, keyby = combiCat]
+dt[, combiCase := fifelse(combi3 == 3, 1, NA)]
+
 
 # Dual bruker, combi bruker inkludert ------------------------------------------
 dt[, dual_rs_n := royk2 + snus1]   # royk + snus
@@ -91,6 +94,8 @@ rs <- calc_percentage_total_ci(dt,
                                include_total = TRUE
                                )
 
+rs[, type := "Snus og sigarett"]
+
 # Røyk + e-sig
 re <- calc_percentage_total_ci(dt,
                                outcome_var = "dual_re",
@@ -100,6 +105,8 @@ re <- calc_percentage_total_ci(dt,
                                include_total = TRUE
                                )
 
+re[, type := "Vipe og sigarett"]
+
 # Snus + e-sig
 se <- calc_percentage_total_ci(dt,
                                outcome_var = "dual_se",
@@ -108,3 +115,7 @@ se <- calc_percentage_total_ci(dt,
                                weight_var = "vekt",
                                include_total = TRUE
                                )
+
+se[, type := "Vipe og snus"]
+
+dualDT <- data.table::rbindlist(list(rs, re, se))
