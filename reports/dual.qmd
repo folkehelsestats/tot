@@ -19,7 +19,7 @@ source("c:/Users/ykama/Git-hdir/tot/reports/tobakkstat2025.R")
 
 gender <- data.table(
   kjonn = c("1", "2", "Total"),
-  kjonnCat = c("Menn", "Kvinner", "Total")
+  kjonnCat = c("Menn", "Kvinner", "Totalt")
 )
 
 ```
@@ -29,6 +29,9 @@ gender <- data.table(
 ```{r}
 
 dualDT[gender, gender := i.kjonnCat, on = "kjonn"]
+# Ensure order the way I want it to be
+dualDT[, gender := factor(gender, levels = c("Kvinner", "Menn", "Totalt"))]
+dualDT <- dualDT[order(gender)]
 
 spec_dual <- hd_spec(data = dualDT, x = "gender", y = "percentage", group = "type", n = "n_outcome_1")
 
